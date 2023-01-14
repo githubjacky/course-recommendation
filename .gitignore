@@ -1,5 +1,14 @@
-# raw data
-data/raw_data
+# data folder
+data/
+
+# prediction folder
+pred/
+
+# DNN ckpt and log
+DNN/ckpt
+DNN/log
+
+.DS_Store
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -1,0 +1,1 @@
+python preprocess/main.py --target_data_dir data/model_data
