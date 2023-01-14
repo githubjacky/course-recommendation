@@ -1,4 +1,5 @@
 from sklearn.neighbors import NearestNeighbors
+from cuml.neighbors import NearestNeighbors as cuNearestNeighbors
 import json
 import sys
 
@@ -19,13 +20,22 @@ class KNN(CF_KNN):
     def fit(self, verbose=True):
         if self.hparam['domain'] == 'course':
             print('fit KNN for course prediction...')
-            self.model_course = NearestNeighbors(
-                n_neighbors=self.hparam['knn_course_k'],
-                algorithm=self.hparam['knn_course_algorithm']
-            ).fit(self.user_item_data)
-            distances, indices = self.model_course.kneighbors(
-                self.user_item_data
-            )
+            if self.use_gpu:
+                self.model_course = cuNearestNeighbors(
+                    n_neighbors=self.hparam['knn_course_k'],
+                    algorithm=self.hparam['knn_course_algorithm']
+                ).fit(self.user_item_data.toarray())
+                distances, indices = self.model_course.kneighbors(
+                    self.user_item_data.toarray()
+                )
+            else:
+                self.model_course = NearestNeighbors(
+                    n_neighbors=self.hparam['knn_course_k'],
+                    algorithm=self.hparam['knn_course_algorithm']
+                ).fit(self.user_item_data)
+                distances, indices = self.model_course.kneighbors(
+                    self.user_item_data
+                )
 
             val_data = json.loads((self.hparam['data_dir']/'valseen.json').read_text())
             user_idx = [self.user_id2user_idx[i['user_id']] for i in val_data]
@@ -45,14 +55,23 @@ class KNN(CF_KNN):
             self.pred_topic_val = pred_topic
         elif self.hparam['domain'] == 'topic':
             print('fit KNN for topic prediction...')
-            self.model_topic = NearestNeighbors(
-                n_neighbors=self.hparam['knn_topic_k'],
-                algorithm=self.hparam['knn_topic_algorithm']
-            ).fit(self.user_item_data)
-            distances, indices = self.model_topic.kneighbors(
-                self.user_item_data
-            )
-            
+            if self.use_gpu:
+                self.model_topic = cuNearestNeighbors(
+                    n_neighbors=self.hparam['knn_topic_k'],
+                    algorithm=self.hparam['knn_topic_algorithm']
+                ).fit(self.user_item_data.toarray())
+                distances, indices = self.model_topic.kneighbors(
+                    self.user_item_data.toarray()
+                )
+            else:
+                self.model_topic = NearestNeighbors(
+                    n_neighbors=self.hparam['knn_topic_k'],
+                    algorithm=self.hparam['knn_topic_algorithm']
+                ).fit(self.user_item_data)
+                distances, indices = self.model_topic.kneighbors(
+                    self.user_item_data
+                )
+                
             val_data = json.loads((self.hparam['data_dir']/'valseen.json').read_text())
             user_idx = [self.user_id2user_idx[i['user_id']] for i in val_data]
 
@@ -62,7 +81,6 @@ class KNN(CF_KNN):
                 print('evaluation: ')
                 print('(topic)map@50: ', self.metric.mapk_valseen_topic(pred_topic))
                 print('-----------------------------------')
-
             self.pred_topic_val = pred_topic
         else:
             print('wrong domain')
@@ -103,7 +121,6 @@ class KNN(CF_KNN):
         test_data = json.loads((self.hparam['data_dir']/'testseen.json').read_text())
         user_idx = [self.user_id2user_idx[i['user_id']] for i in test_data]
 
-        
         self.fit(verbose=False)
         distances, indices = self.model_course.kneighbors(
                 self.user_item_data

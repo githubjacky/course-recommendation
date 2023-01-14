@@ -132,7 +132,7 @@ def parse_hparam():
     hparam.add_argument(
         '--knn_topic_k',
         type=int,
-        default=2500
+        default=2000
     )
     hparam.add_argument(
         '--knn_topic_algorithm',
