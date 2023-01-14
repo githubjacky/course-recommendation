@@ -4,6 +4,9 @@ data/
 # prediction folder
 pred/
 
+# test foler
+test/
+
 # DNN ckpt and log
 DNN/ckpt
 DNN/log
