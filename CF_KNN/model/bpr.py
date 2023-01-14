@@ -44,15 +44,18 @@ class BPR(CF_KNN):
             pred_topic = predict_topic_from_course(
                 pred_course_, user_idx, self.known_topic, self.course2subgroup
             )
+            self.pred_course_val = pred_course
+            self.pred_topic_val = pred_topic
+            self.course_score = self.metric.val_metric(pred_course)
+            self.topic_score = self.metric.mapk_valseen_topic(pred_topic)
+
             if verbose:
                 print('-----------------------------------')
                 print('evaluation: ')
-                print('(course)map@50:', self.metric.val_metric(pred_course))
-                print('(topic)map@50: ', self.metric.mapk_valseen_topic(pred_topic))
+                print('(course)map@50:', self.course_score)
+                print('(topic)map@50: ', self.topic_score)
                 print('-----------------------------------')
 
-            self.pred_course_val = pred_course
-            self.pred_topic_val = pred_topic
         elif self.hparam['domain'] == 'topic':
             if self.use_gpu:
                 self.model_topic = BayesianPersonalizedRanking(
@@ -77,13 +80,14 @@ class BPR(CF_KNN):
             pred_topic, score_topic = self.model_topic.recommend(
                 user_idx, self.user_item_data[user_idx], filter_already_liked_items=False, N=50
             )
+            self.pred_topic_val = pred_topic
+            self.topic_score = self.metric.val_metric(pred_topic)
+
             if verbose:
                 print('-----------------------------------')
                 print('evaluation: ')
-                print('(topic)map@50: ', self.metric.val_metric(pred_topic))
+                print('(topic)map@50: ', self.topic_score)
                 print('-----------------------------------')
-
-            self.pred_topic_val = pred_topic
         else:
             print('wrong domain')
             sys.exit(1)

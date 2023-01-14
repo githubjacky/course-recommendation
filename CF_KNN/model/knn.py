@@ -44,15 +44,17 @@ class KNN(CF_KNN):
             pred_topic = predict_topic_from_course(
                 pred_course, user_idx, self.known_topic, self.course2subgroup
             )
+            self.pred_course_val = pred_course
+            self.pred_topic_val = pred_topic
+            self.course_score = self.metric.val_metric(pred_course)
+            self.topic_score = self.metric.mapk_valseen_topic(pred_topic)
+
             if verbose:
                 print('-----------------------------------')
                 print('evaluation: ')
-                print('(course)map@50:', self.metric.val_metric(pred_course))
-                print('(topic)map@50: ', self.metric.mapk_valseen_topic(pred_topic))
+                print('(course)map@50:', self.course_score)
+                print('(topic)map@50: ', self.topic_score)
                 print('-----------------------------------')
-
-            self.pred_course_val = pred_course
-            self.pred_topic_val = pred_topic
         elif self.hparam['domain'] == 'topic':
             print('fit KNN for topic prediction...')
             if self.use_gpu:
@@ -76,12 +78,14 @@ class KNN(CF_KNN):
             user_idx = [self.user_id2user_idx[i['user_id']] for i in val_data]
 
             pred_topic = knn_predict_topic(indices, user_idx, self.known_topic)
+            self.pred_topic_val = pred_topic
+            self.topic_score = self.metric.mapk_valseen_topic(pred_topic)
+
             if verbose:
                 print('-----------------------------------')
                 print('evaluation: ')
-                print('(topic)map@50: ', self.metric.mapk_valseen_topic(pred_topic))
+                print('(topic)map@50: ', self.topic_score)
                 print('-----------------------------------')
-            self.pred_topic_val = pred_topic
         else:
             print('wrong domain')
             sys.exit(1)

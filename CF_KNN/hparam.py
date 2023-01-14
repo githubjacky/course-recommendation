@@ -1,6 +1,8 @@
 import argparse
 from pathlib import Path
 
+from numpy import float64
+
 
 def parse_hparam():
     hparam = argparse.ArgumentParser()
@@ -47,22 +49,22 @@ def parse_hparam():
     hparam.add_argument(
         '--als_course_factors',
         type=int,
-        default=1000
+        default=60
     )
     hparam.add_argument(
         '--als_course_regularization',
-        type=int,
-        default=200
+        type=float64,
+        default=51.02939
     )
     hparam.add_argument(
         '--als_course_alpha',
         type=int,
-        default=1000
+        default=1
     )
     hparam.add_argument(
         '--als_course_iterations',
         type=int,
-        default=1
+        default=312
     )
     hparam.add_argument(
         '--random_state',
@@ -82,12 +84,12 @@ def parse_hparam():
     hparam.add_argument(
         '--als_topic_alpha',
         type=int,
-        default=1000
+        default=1
     )
     hparam.add_argument(
         '--als_topic_iterations',
         type=int,
-        default=1
+        default=30
     )
     hparam.add_argument(
         '--bpr_course_factors',
@@ -102,7 +104,7 @@ def parse_hparam():
     hparam.add_argument(
         '--bpr_course_iterations',
         type=int,
-        default=10000
+        default=100
     )
     hparam.add_argument(
         '--bpr_topic_factors',
@@ -117,12 +119,12 @@ def parse_hparam():
     hparam.add_argument(
         '--bpr_topic_iterations',
         type=int,
-        default=4000
+        default=100
     )
     hparam.add_argument(
         '--knn_course_k',
         type=int,
-        default=2500
+        default=2000
     )
     hparam.add_argument(
         '--knn_course_algorithm',
