@@ -30,7 +30,7 @@
 | --- | --- | ---| --- | --- |
 | course| 60 | 51.02939 | 312 | 0.07909 |
 | topic from course | 370 | 489.7961 | 30 | 0.25506 |
-| topic | 0 | 0 | 0 | 0 |
+| topic | 40 | 51.02939 | 425 | 0.2437019 |
 
 #### BPR
   There are two major hyperparamers, factors, learning rate in BPR. Hence, I first fix the number of iterations to 100. After find the optimal factors and learning rate, I further inspect the impact of number of iterations.
