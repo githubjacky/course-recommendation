@@ -2,14 +2,15 @@
 
 *this is the final project of the course **2022 ADL Fall**, topic: how how grand challenge*
 
-### Introduction
+## Introduction
 
   In this challenge, there are 2 main domains, seen and unseen. Each domain contains 2 sub-domain which is course-prediction and topic-prediction. Literally, we are going to recommend the courses and the topics of course for the customers based on different level of information.
   
   For both domain we have the customers' personal information such as the gender, occupation, interests and recreation. There are also some information related to the courses such as the course desciptions, the name of instructors, introduction of instructors, topic of the coures and also some brief introduciton of courses' chapter. Theres is seen custormes' purchase history, howerver, there isn't any purchase history of unseen custormers and that's basically the "unseen" stands for.
   
   In terms of the methodology, in seen domain, I apply the traditional collaborative filtering(CF) method and also conduct few trials applying neural network framework. As for the unseen domain, I take advantage of the BM25 algorithm and neural network as well.
-  
+ 
+ ## Methods
   The idea of CF is that it's reasonable to recommend based on a bunch of items purchased by the customers who share similarity with the customer. Hence, it's feasible for the seen customers to use CF since we can constuct the customer-course matrix based on the purchase history. I adopt three algorithms: alternating least squares(ALS), bayesian personalized ranking(BPR) and k nearest neighbors. The ALS and BPR are kind of tricky in that the assumption contains that there are latent representaion for both customers and courses. The goal is to find the best latent representation to approximate the customer-course matrix.
   
    With regard to BM25, it's a mature techique in the Field of information retrieval. The concept is given query and list of documents, find the best match based on the frequency.
