@@ -1,12 +1,12 @@
+import os, sys
+sys.path.append(os.path.abspath(f"{os.getcwd()}"))
+
 from pathlib import Path
 import json
-import sys
-import os
 import numpy as np
 from rank_bm25 import BM25Okapi, BM25L, BM25Plus
 from ckip_transformers.nlp import CkipWordSegmenter, CkipPosTagger
 
-sys.path.append(os.path.abspath(f"{os.getcwd()}"))
 from utils import (
     predict,
     predict_topic_from_course_no_secret

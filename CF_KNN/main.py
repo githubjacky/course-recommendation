@@ -1,5 +1,6 @@
 import os, sys
 sys.path.append(os.path.abspath(f"{os.getcwd()}"))
+
 from CF_KNN.hparam import parse_hparam
 from CF_KNN.model.als import ALS
 from CF_KNN.model.bpr import BPR

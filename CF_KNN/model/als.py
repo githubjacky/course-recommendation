@@ -1,4 +1,6 @@
-import sys
+import os, sys
+sys.path.append(os.path.abspath(f"{os.getcwd()}"))
+
 import implicit
 from implicit.gpu.als import AlternatingLeastSquares
 import json

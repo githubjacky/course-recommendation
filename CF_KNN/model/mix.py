@@ -1,5 +1,8 @@
-import sys
+import os, sys
+sys.path.append(os.path.abspath(f"{os.getcwd()}"))
+
 import json
+
 from CF_KNN.model.base import CF_KNN
 from CF_KNN.model.als import ALS
 from CF_KNN.model.bpr import BPR

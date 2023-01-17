@@ -1,3 +1,6 @@
+import os, sys
+sys.path.append(os.path.abspath(f"{os.getcwd()}"))
+
 from sklearn.neighbors import NearestNeighbors
 from cuml.neighbors import NearestNeighbors as cuNearestNeighbors
 import json
