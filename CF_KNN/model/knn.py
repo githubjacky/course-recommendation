@@ -3,8 +3,8 @@ from cuml.neighbors import NearestNeighbors as cuNearestNeighbors
 import json
 import sys
 
-from model.base import CF_KNN
-from model.utils import (
+from CF_KNN.model.base import CF_KNN
+from utils import (
     knn_predict_course,
     predict_topic_from_course,
     knn_predict_topic,

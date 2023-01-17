@@ -1,10 +1,10 @@
 import sys
 import json
-from model.base import CF_KNN
-from model.als import ALS
-from model.bpr import BPR
-from model.knn import KNN
-from model.utils import(
+from CF_KNN.model.base import CF_KNN
+from CF_KNN.model.als import ALS
+from CF_KNN.model.bpr import BPR
+from CF_KNN.model.knn import KNN
+from utils import(
     mix2_rearrange,
     mix3_rearrange,
     predict,

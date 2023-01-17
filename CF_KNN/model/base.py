@@ -4,7 +4,7 @@ import torch
 from scipy.sparse import csr_matrix
 
 
-from model.metric import Metric
+from metric import Metric
 
 
 class CF_KNN():

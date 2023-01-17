@@ -39,12 +39,15 @@ def main(args):
         testunseen = args.raw_data_dir / 'test_unseen.csv',
         testunseen_topic = args.raw_data_dir / 'test_unseen_group.csv',
     )
-
+    print('extract training and validation sample feature...')
     data.encode_customer_feature_train('train', args.target_data_dir)
     data.encode_customer_feature_train('valseen', args.target_data_dir)
     data.encode_customer_feature_train('valunseen', args.target_data_dir)
+    print('extract test sample feature...')
     data.encode_customer_feature('testseen', args.target_data_dir)
     data.encode_customer_feature('testunseen', args.target_data_dir)
+    print('extract course feature...')
+    data.get_course_feature(args.target_data_dir)
 
     data.output_utils(args.target_data_dir)
 

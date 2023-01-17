@@ -1,10 +1,10 @@
-import sys
-
-from hparam import parse_hparam
-from model.als import ALS
-from model.bpr import BPR
-from model.knn import KNN
-from model.mix import MIX2, MIX3
+import os, sys
+sys.path.append(os.path.abspath(f"{os.getcwd()}"))
+from CF_KNN.hparam import parse_hparam
+from CF_KNN.model.als import ALS
+from CF_KNN.model.bpr import BPR
+from CF_KNN.model.knn import KNN
+from CF_KNN.model.mix import MIX2, MIX3
 
 
 def main(hparam):

@@ -29,7 +29,10 @@ def predict_topic_from_course(result, user_idx, known_topic, course2subgroup):
     for idx, i in enumerate(result):
         weight = dict()
         for j in i:
-            topic = course2subgroup[str(j)]
+            try:
+                topic = course2subgroup[str(j)]
+            except:
+                topic = [0]
             for k in topic:
                 if k in weight:
                     weight[k] += 1
@@ -44,6 +47,31 @@ def predict_topic_from_course(result, user_idx, known_topic, course2subgroup):
             if key[j] not in secret
         ]
         pred_boost.append(secret+pred)
+    return pred_boost
+
+
+def predict_topic_from_course_no_secret(result, course2subgroup): 
+    pred_boost = []
+    for idx, i in enumerate(result):
+        weight = dict()
+        for j in i:
+            try:
+                topic = course2subgroup[str(j)]
+            except:
+                topic = [0]
+            for k in topic:
+                if k in weight:
+                    weight[k] += 1
+                else:
+                    weight[k] = 1
+        key  = list(weight.keys())
+        val = list(weight.values())
+        pred = [
+            key[j]
+            for j in np.argsort(np.array(val))[::-1]
+            if key[j]
+        ]
+        pred_boost.append(pred)
     return pred_boost
 
 

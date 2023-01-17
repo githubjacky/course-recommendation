@@ -2,6 +2,8 @@ import csv
 import pandas as pd
 import json
 import numpy as np
+import re
+from ckip_transformers.nlp import CkipWordSegmenter, CkipPosTagger
 
 
 class DataUtil():
@@ -206,3 +208,61 @@ class DataUtil():
         # idx2int
         with open(output_dir / 'idx2int.json', 'w') as f:
             f.write(json.dumps(idx2int, indent=4))
+
+    def safetext(self, x):
+        try:
+            output = x.strip('\n')
+            output = output.strip(' ') 
+            output = output.strip('\n')
+            output = output.strip('。')
+            output += '。'
+        except:
+            output = ""
+        return output
+
+    def cleanhtml(self, raw_html): 
+        cleanr = re.compile('<.*?>')
+        output = re.sub(cleanr, '', raw_html)
+        output = output.strip(' ') 
+        output = output.strip('\n')
+        output = output.strip('。')
+        output += '。'
+        return output
+        
+    def clean(self, ws_res, pos_res):
+        clean_doc = []
+        for ws_res_i, pos_res_i in zip(ws_res, pos_res):
+            clean_sentence = []
+            block_pos = set(['Nep', 'Nh', 'Nb'])
+            for i, j in zip(ws_res_i, pos_res_i):
+                is_noun = j.startswith("N")  # retain noun
+                is_not_block_pos = j not in block_pos  # retain some pos
+                is_not_one_charactor = not (len(i) == 1)  # kick out one character 
+            
+                if is_noun and is_not_block_pos and is_not_one_charactor:
+                    clean_sentence.append(i)
+            clean_doc.append(clean_sentence)
+
+        return clean_doc
+
+    def get_course_feature(self, output_dir):
+        self.df['course']['clean_course_name'] = self.df['course']['course_name'].apply(self.safetext)
+        self.df['course']['clean_sub_groups'] = self.df['course']['sub_groups'].apply(self.safetext)
+        self.df['course']['clean_will_learn'] = self.df['course']['will_learn'].apply(self.safetext)
+        self.df['course']['clean_description'] = self.df['course']['description'].apply(self.cleanhtml)
+        course_feature = dict()
+        for i in range(len(self.df['course'])):
+            course_feature[str(i)] = self.df['course'].iloc[i]['clean_course_name'] + self.df['course'].iloc[i]['clean_sub_groups'] + self.df['course'].iloc[i]['clean_will_learn'] + self.df['course'].iloc[i]['clean_description']
+        doc = list(course_feature.values())
+        ws_driver = CkipWordSegmenter(model="bert-base", device=0)
+        pos_driver = CkipPosTagger(model="bert-base", device=0)
+        ws_res = ws_driver(doc)
+        pos_res = pos_driver(ws_res)
+        clean_doc = self.clean(ws_res, pos_res)
+        course_feature = {
+            str(idx): i
+            for idx, i in enumerate(clean_doc)
+        }
+        with open(f'{output_dir}/course_feature.json', 'w') as f:
+                f.write(json.dumps(course_feature))
+    

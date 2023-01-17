@@ -3,8 +3,8 @@ import implicit
 from implicit.gpu.als import AlternatingLeastSquares
 import json
 
-from model.base import CF_KNN
-from model.utils import (
+from CF_KNN.model.base import CF_KNN
+from utils import (
     predict,
     predict_topic_from_course
 )

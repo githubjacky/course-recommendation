@@ -74,12 +74,12 @@ def parse_hparam():
     hparam.add_argument(
         '--als_topic_factors',
         type=int,
-        default=1000
+        default=40
     )
     hparam.add_argument(
         '--als_topic_regularization',
-        type=int,
-        default=200
+        type=float,
+        default=51.02939
     )
     hparam.add_argument(
         '--als_topic_alpha',
@@ -89,42 +89,42 @@ def parse_hparam():
     hparam.add_argument(
         '--als_topic_iterations',
         type=int,
-        default=30
+        default=425
     )
     hparam.add_argument(
         '--bpr_course_factors',
         type=int,
-        default=500
+        default=30
     )
     hparam.add_argument(
         '--bpr_course_lr',
         type=float,
-        default=1e-5
+        default=0.001437
     )
     hparam.add_argument(
         '--bpr_course_iterations',
         type=int,
-        default=100
+        default=300
     )
     hparam.add_argument(
         '--bpr_topic_factors',
         type=int,
-        default=600
+        default=250
     )
     hparam.add_argument(
         '--bpr_topic_lr',
         type=float,
-        default=3e-5
+        default=0.00062 
     )
     hparam.add_argument(
         '--bpr_topic_iterations',
         type=int,
-        default=100
+        default=389
     )
     hparam.add_argument(
         '--knn_course_k',
         type=int,
-        default=2000
+        default=1980
     )
     hparam.add_argument(
         '--knn_course_algorithm',
@@ -134,7 +134,7 @@ def parse_hparam():
     hparam.add_argument(
         '--knn_topic_k',
         type=int,
-        default=2000
+        default=1980
     )
     hparam.add_argument(
         '--knn_topic_algorithm',
