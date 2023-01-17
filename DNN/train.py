@@ -1,5 +1,6 @@
 from pathlib import Path
-
+import os, sys
+sys.path.append(os.path.abspath(f"{os.getcwd()}"))
 import torch
 from torch import nn
 from torch.nn import functional as F
@@ -8,9 +9,9 @@ from pytorch_lightning import Trainer
 from pytorch_lightning.callbacks import ModelCheckpoint, TQDMProgressBar
 from pytorch_lightning.loggers import WandbLogger
 
-from DataModule import MLCLSDataModule
-from hparam import parse_hparam
-import model
+from DNN.DataModule import MLCLSDataModule
+from DNN.hparam import parse_hparam
+import DNN.model
 from metric import Metric
 
 
